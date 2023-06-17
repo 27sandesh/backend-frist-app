@@ -32,33 +32,74 @@
 // console.log(res);
 
 const http = require("http");
+const fs = require("fs");
+const { error } = require("console");
+const querystring = require("querystring");
 const server = http.createServer(function rqListenser(req, res) {
   console.log("sandesh");
 
   console.log(req.url, req.method, req.headers);
   const url = req.url;
+  const method = req.method;
+
   res.setHeader("Content-Type", "text/html");
-  if (url === "/home") {
+  if (url === "/") {
+    const message = fs.readFileSync("message.txt", "utf-8");
     res.write("<html>");
-    res.write("<head>welcome home  </head>");
+    res.write("<head>Enter Message </head>");
+    message.split("\n").forEach((message) => {
+      if (message.trim() !== "") {
+        res.write(`<li>${message}</li>`);
+      }
+    });
+    res.write(
+      "<body><form action='/message' method='POST'><input type='text' name='message'/><button type='submit'>Send</button></form></body>"
+    );
 
     res.write("<html/>");
   }
-  if (url === "/about") {
-    res.write("<html>");
-    res.write("<head>welcome to About us  </head>");
 
-    res.write("<html/>");
+  if (url === "/message" && method === "POST") {
+    const body = [];
+    req.on("data", (chunk) => {
+      body.push(chunk);
+      console.log(chunk);
+    });
+    req.on("end", () => {
+      const parsedbody = Buffer.concat(body).toString();
+      console.log(parsedbody);
+      const msg = parsedbody.split("=")[1];
+
+      fs.writeFile("message.txt", msg + "\n", (error) => {
+        if (error) {
+          console.log("error:", error);
+        } else {
+          console.log("no error");
+        }
+      });
+    });
+
+    res.statusCode = 302;
+    res.setHeader("Location", "/");
+
+    return res.end();
   }
 
-  if (url === "/node") {
-    res.write("<html>");
-    res.write("<head> myfirst page  </head>");
-    res.write("<body> helo </body>");
-    res.write("<html/>");
-  }
+  // if (url === "/about") {
+  //   res.write("<html>");
+  //
 
-  res.end();
-  process.exit();
+  //   res.write("<html/>");
+  // }
+
+  // if (url === "/node") {
+  // res.write("<html>");
+  // res.write("<head> myfirst page  </head>");
+  // res.write("<body> helo </body>");
+  // res.write("<html/>");
+  // }
+
+  // res.end();
+  // process.exit();
 });
 server.listen(4000);
