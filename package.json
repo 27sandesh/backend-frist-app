@@ -1,0 +1,15 @@
+{
+  "name": "frist-app",
+  "version": "1.0.0",
+  "description": "frist backend project",
+  "main": "frist-app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon frist-app.js"
+  },
+  "author": "sandesh kamble",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
