@@ -33,14 +33,23 @@
 const http = require("http");
 const fs = require("fs");
 const express = require("express");
+const bodyParser = require("body-parser");
 const app = express();
-app.use((req, res, next) => {
-  console.log("in the middleware");
-  next();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use("/Home", (req, res, next) => {
+  res.send(
+    "<form action='/product'><input type='Text' name='title'/><button type='submit'>Add</button></form>"
+  );
 });
-app.use((req, res, next) => {
-  res.send("<h1>hi this is me");
+app.post("/product", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
+  res.send("<h1>this is a default</h1>");
 });
+app.use("/", (req, res, next) => {
+  res.send("<h1>this is exress</h1>");
+});
+
 const { error } = require("console");
 const querystring = require("querystring");
 // const server = http.createServer(function rqListenser(req, res) {
