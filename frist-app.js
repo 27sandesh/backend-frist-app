@@ -5,10 +5,15 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const AdminRoutes = require("./routes/admin");
+const loginRoutes = require("./routes/login");
 const ShopRoutes = require("./routes/shop");
+
+app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use("/Admin", AdminRoutes);
-app.use(ShopRoutes);
+app.use(loginRoutes);
+//app.use("/Admin", AdminRoutes);
+//app.use(ShopRoutes);
 
 app.use((req, res, next) => {
   res.status(404).send("<h1>Page not Found</h1>");
