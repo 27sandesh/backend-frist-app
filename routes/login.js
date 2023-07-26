@@ -1,10 +1,11 @@
 const { text } = require("body-parser");
 const express = require("express");
 const login = express.Router();
+const path = require("path");
+const rootDir = require("../util/path");
+
 login.get("/login", (req, res, next) => {
-  res.send(
-    "<form action='/store' method='post'><body><label >name:-</label><input  type='text'  name='username'/><button type='submit'>Add</button></body><form/>"
-  );
+  res.sendFile(path.join(__dirname, "../", "views", "login.html"));
 });
 
 login.post("/store", (req, res, next) => {
