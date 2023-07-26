@@ -7,11 +7,12 @@ const app = express();
 const AdminRoutes = require("./routes/admin");
 const loginRoutes = require("./routes/login");
 const ShopRoutes = require("./routes/shop");
-
+const navRoutes = require("./routes/nav");
 app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(loginRoutes);
+app.use(navRoutes);
 //app.use("/Admin", AdminRoutes);
 //app.use(ShopRoutes);
 
