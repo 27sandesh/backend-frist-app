@@ -1,9 +1,8 @@
 const express = require("express");
 const nav = express.Router();
+const { details } = require("../controllers/contactus");
 const path = require("path");
-nav.get("/contact-us", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "../", "views", "nav.html"));
-});
+nav.get("/contact-us", details);
 nav.post("/sucess", (req, res, next) => {
   res.send("<h1>this sucess</h1>");
 });
